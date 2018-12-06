@@ -1,1 +1,0 @@
-document.querySelectorAll('video').forEach(v=>v.playbackRate=0.5)

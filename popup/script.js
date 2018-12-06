@@ -3,22 +3,29 @@
  // the content script in the page.
  
 const listenForClicks = () => {
-	document.getElementsByClassName("number").addEventListener("click", () => {
-		console.log(document.getElementsByClassName("number"))})}
+	document.addEventListener("click", (e) => {
+		// console.log('log: ', e.target.textContent);
+		// console.log(e);
+		switch (e.target.textContent) {
+			case '0.75':
+				console.log(0.75);
+				return 0.75;
+				break;
+			case '1':
+				console.log(1);
+				return 1;
+				break;
+			case '1.25':
+				console.log(1.25);
+				return 1.25;
+				break;
+			default:
+				console.log("default");
+				return 1;
+		}
+	}
+)};
+
 listenForClicks();
 
-	// }
-// 		(num) => {
-//       switch (num) {
-//         case 0.75:
-//         	console.log(0.75);
-//         	// return 0.75;
-//         case 1:
-//           	console.log(0.75);
-//           	// return 1;
-//         case 1.25:
-//           	console.log(0.75);
-//           	// return 1.25;
-//       }
-//     }
-// )}
+export { listenForClicks() }
