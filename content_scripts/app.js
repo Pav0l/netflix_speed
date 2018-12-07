@@ -1,4 +1,4 @@
-import { listenForClicks() } from popup/script.js
+import listenForClicks from popup/script.js
 
 let speed = listenForClicks();
 

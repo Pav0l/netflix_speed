@@ -28,4 +28,4 @@ const listenForClicks = () => {
 
 listenForClicks();
 
-export { listenForClicks() }
+export default listenForClicks
