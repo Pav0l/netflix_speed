@@ -7,3 +7,4 @@ console.log('app.js')
 const vidSpeed = () => {
 	document.querySelectorAll('video').forEach(v=>v.playbackRate=speed);
 }
+
