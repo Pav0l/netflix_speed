@@ -2,35 +2,73 @@
  // Listen for clicks on the buttons, and send the appropriate message to
  // the content script in the page.
 
-let listenForClicks = () => {
+const onClick = () => {
 	document.addEventListener("click", e => {
-		// console.log('log: ', e.target.textContent);
-		// console.log(e);
 		switch (e.target.textContent) {
 			case '0.75':
-				document.querySelectorAll('video').forEach(v=>v.playbackRate=0.75);
 				console.log(0.75);
-				break;
+				return 0.75;
 			case '1':
-				document.querySelectorAll('video').forEach(v=>v.playbackRate=1);
 				console.log(1);
-				break;
+				return 1;
 			case '1.25':
-				document.querySelectorAll('video').forEach(v=>v.playbackRate=1.25);
 				console.log(1.25);
-				break;
+				return 1.25;
 			default:
-				document.querySelectorAll('video').forEach(v=>v.playbackRate=1);
 				console.log("default");
+				return 1;
 			}
 		}
 	)
 }
 
-listenForClicks();
+
+const onExecute = code => console.log(`app.js is executed`);
+const onError = error => console.log(`Error: ${error}`);
+
+let excuting = browser.tabs.executeScript({
+	file: "/content_scripts/app.js"
+});
+
+executing.then(onExecute, onError);
 
 
 
+
+
+
+
+
+
+// THESE EXAMPLES BELOW DOES NOT WORK - THE CODE OF THE ADDON (index.html/script.js) 
+// LIVES IN A DIFFERENT CONTEXT THAN THE CODE OF THE PAGE
+
+// let listenForClicks = () => {
+// 	document.addEventListener("click", e => {
+// 		// console.log('log: ', e.target.textContent);
+// 		// console.log(e);
+// 		switch (e.target.textContent) {
+// 			case '0.75':
+// 				document.querySelectorAll('video').forEach(v=>v.playbackRate=0.75);
+// 				console.log(0.75);
+// 				break;
+// 			case '1':
+// 				document.querySelectorAll('video').forEach(v=>v.playbackRate=1);
+// 				console.log(1);
+// 				break;
+// 			case '1.25':
+// 				document.querySelectorAll('video').forEach(v=>v.playbackRate=1.25);
+// 				console.log(1.25);
+// 				break;
+// 			default:
+// 				document.querySelectorAll('video').forEach(v=>v.playbackRate=1);
+// 				console.log("default");
+// 			}
+// 		}
+// 	)
+// }
+
+// listenForClicks();
 
 
  ///////////////////////////////////////////////////////////////////////////
