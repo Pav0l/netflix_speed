@@ -1,10 +1,10 @@
 (function() {
   
-  // if (window.hasRun) {
-  //   return;
-  // }
-  // window.hasRun = true;
- 
+	// if (window.hasRun) {
+	//   return;
+	// }
+	// window.hasRun = true;
+
 	let vidSpeed = (speed) => {
 		document.querySelectorAll('video').forEach(v=>v.playbackRate=speed);
 	};
