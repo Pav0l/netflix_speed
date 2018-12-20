@@ -5,20 +5,20 @@ function listenForClicks() {
     function onClick(number) {
       switch (number) {
         case '0.75':
-    			console.log(0.75);
-    			return 0.75;
-		    case '1':
-    			console.log(1);
-    			return 1;
-    		case '1.25':
-    			console.log(1.25);
-    			return 1.25;
-    		default:
-    			console.log("default");
-    			return 1;
+          console.log(0.75);
+          return 0.75;
+        case '1':
+          console.log(1);
+          return 1;
+        case '1.25':
+          console.log(1.25);
+          return 1.25;
+        default:
+          console.log("default");
+          return 1;
       }
     };
-    
+
     // Receive clicked value
     // and send a message with the value
     function sendSpeedValue(tabs) {
