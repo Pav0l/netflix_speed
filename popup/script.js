@@ -1,23 +1,21 @@
 // Listen for clicks on the buttons, and send the appropriate message to
 // the content script in the page.
-
 function listenForClicks() {
   document.addEventListener("click", (e) => {
-   
     function onClick(number) {
       switch (number) {
         case '0.75':
-			console.log(0.75);
-			return 0.75;
-		case '1':
-			console.log(1);
-			return 1;
-		case '1.25':
-			console.log(1.25);
-			return 1.25;
-		default:
-			console.log("default");
-			return 1;
+    			console.log(0.75);
+    			return 0.75;
+		    case '1':
+    			console.log(1);
+    			return 1;
+    		case '1.25':
+    			console.log(1.25);
+    			return 1.25;
+    		default:
+    			console.log("default");
+    			return 1;
       }
     };
     
@@ -35,7 +33,7 @@ function listenForClicks() {
     function reset(tabs) {
     	browser.tabs.sendMessage(tabs[0].id, {
           speed: 1,
-        });
+      });
     };
 
     // Log the error to the console.    
