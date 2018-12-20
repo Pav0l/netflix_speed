@@ -1,131 +1,76 @@
+// Listen for clicks on the buttons, and send the appropriate message to
+// the content script in the page.
 
- // Listen for clicks on the buttons, and send the appropriate message to
- // the content script in the page.
+function listenForClicks() {
+  document.addEventListener("click", (e) => {
+   
+    function onClick(number) {
+      switch (number) {
+        case '0.75':
+			console.log(0.75);
+			return 0.75;
+		case '1':
+			console.log(1);
+			return 1;
+		case '1.25':
+			console.log(1.25);
+			return 1.25;
+		default:
+			console.log("default");
+			return 1;
+      }
+    };
+    
+    // Receive clicked value
+    // and send a message with the value
+    function sendSpeedValue(tabs) {
+      let speed = onClick(e.target.textContent);
+        browser.tabs.sendMessage(tabs[0].id, {
+          speed: speed,
+        });
+    };
 
-const onClick = () => {
-	document.addEventListener("click", e => {
-		switch (e.target.textContent) {
-			case '0.75':
-				console.log(0.75);
-				return 0.75;
-			case '1':
-				console.log(1);
-				return 1;
-			case '1.25':
-				console.log(1.25);
-				return 1.25;
-			default:
-				console.log("default");
-				return 1;
-			}
-		}
-	)
-}
+    // send a "reset" message to the content script in the active tab,
+    // that sets the vid speed to 1
+    function reset(tabs) {
+    	browser.tabs.sendMessage(tabs[0].id, {
+          speed: 1,
+        });
+    };
 
+    // Log the error to the console.    
+    function reportError(error) {
+      console.error(`Whoops, there was some error: ${error}`);
+    };
 
-const onExecute = code => console.log(`app.js is executed`);
-const onError = error => console.log(`Error: ${error}`);
-
-let excuting = browser.tabs.executeScript({
-	file: "/content_scripts/app.js"
-});
-
-executing.then(onExecute, onError);
-
-
-
-
-
-
-
-
-
-// THESE EXAMPLES BELOW DOES NOT WORK - THE CODE OF THE ADDON (index.html/script.js) 
-// LIVES IN A DIFFERENT CONTEXT THAN THE CODE OF THE PAGE
-
-// let listenForClicks = () => {
-// 	document.addEventListener("click", e => {
-// 		// console.log('log: ', e.target.textContent);
-// 		// console.log(e);
-// 		switch (e.target.textContent) {
-// 			case '0.75':
-// 				document.querySelectorAll('video').forEach(v=>v.playbackRate=0.75);
-// 				console.log(0.75);
-// 				break;
-// 			case '1':
-// 				document.querySelectorAll('video').forEach(v=>v.playbackRate=1);
-// 				console.log(1);
-// 				break;
-// 			case '1.25':
-// 				document.querySelectorAll('video').forEach(v=>v.playbackRate=1.25);
-// 				console.log(1.25);
-// 				break;
-// 			default:
-// 				document.querySelectorAll('video').forEach(v=>v.playbackRate=1);
-// 				console.log("default");
-// 			}
-// 		}
-// 	)
-// }
-
-// listenForClicks();
+    // Get the active tab, then call sendSpeedValue or reset as appropriate.    
+    if (e.target.classList.contains("number")) {
+      browser.tabs.query({active: true, currentWindow: true})
+        .then(sendSpeedValue)
+        .catch(reportError);
+    }
+    else if (e.target.classList.contains("reset")) {
+      browser.tabs.query({active: true, currentWindow: true})
+        .then(reset)
+        .catch(reportError);
+    }
+  });
+};
 
 
- ///////////////////////////////////////////////////////////////////////////
-// async function listenForClicks() {
-// 	let buttonClick = document.addEventListener("click", e => {
-// 		// console.log('log: ', e.target.textContent);
-// 		// console.log(e);
-// 		switch (e.target.textContent) {
-// 			case '0.75':
-// 				console.log(0.75);
-// 				0.75;
-// 				break;
-// 			case '1':
-// 				console.log(1);
-// 				1;
-// 				break;
-// 			case '1.25':
-// 				console.log(1.25);
-// 				1.25;
-// 				break;
-// 			default:
-// 				console.log("default");
-// 				1;
-// 			}
-// 		}
-// 	)
-// 	await (() => {
-// 	document.querySelectorAll('video').forEach(v=>v.playbackRate=buttonClick);
-// 	console.log('result: ', buttonClick);
-// })
-// }
 
-// listenForClicks();
-///////////////////////////////////////////////////////////////////////////
+// There was an error executing the script.
+// Display the popup's error message.
+ 
+function reportExecuteScriptError(error) {
+	console.error(`Failed to execute content script: ${error.message}`);
+};
 
-// const listenForClicks = new Promise((resolve, reject) => {
-// 	let clickValue = document.addEventListener("click", e => {
-// 		// console.log('log: ', e.target.textContent);
-// 		// console.log(e);
-// 		switch (e.target.textContent) {
-// 			case '0.75':
-// 				console.log(0.75);
-// 				return 0.75;
-// 				break;
-// 			case '1':
-// 				console.log(1);
-// 				return 1;
-// 				break;
-// 			case '1.25':
-// 				console.log(1.25);
-// 				return 1.25;
-// 				break;
-// 			default:
-// 				console.log("default");
-// 				return 1;
-// 			}
-// 		}
-// 	)
-// 	resolve(clickValue)
-// })
+// When the popup loads, inject a content script into the active tab,
+// and add a click handler.
+// If we couldn't inject the script, handle the error.
+
+browser.tabs.executeScript({file: "/content_scripts/app.js"})
+.then(listenForClicks)
+.catch(reportExecuteScriptError);
+
