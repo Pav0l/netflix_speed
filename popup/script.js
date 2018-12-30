@@ -1,22 +1,9 @@
 // Listen for clicks on the buttons, and send the appropriate message to
 // the content script in the page.
 function listenForClicks() {
-  document.addEventListener("click", (e) => {
+  document.addEventListener("click", e => {
     function onClick(number) {
-      switch (number) {
-        case '0.5':
-          console.log(0.5);
-          return 0.5;
-        case '1':
-          console.log(1);
-          return 1;
-        case '1.5':
-          console.log(1.5);
-          return 1.5;
-        default:
-          console.log("default");
-          return 1;
-      }
+      return parseFloat(number);
     };
 
     // Receive clicked value
