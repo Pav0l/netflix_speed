@@ -9,11 +9,11 @@
     "64": "icons/icon-64.png"
   },
     "permissions": [
-    "activeTab"
+    "<all_urls>"
   ],
 
   "content_scripts": [{
-    "matches": [ "*://*.netflix.com/*" ],
+    "matches": [ "*://*/*" ],
     "js":  [ "content_scripts/app.js" ]
   }],
 

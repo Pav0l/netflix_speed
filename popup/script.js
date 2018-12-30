@@ -4,15 +4,15 @@ function listenForClicks() {
   document.addEventListener("click", (e) => {
     function onClick(number) {
       switch (number) {
-        case '0.75':
-          console.log(0.75);
-          return 0.75;
+        case '0.5':
+          console.log(0.5);
+          return 0.5;
         case '1':
           console.log(1);
           return 1;
-        case '1.25':
-          console.log(1.25);
-          return 1.25;
+        case '1.5':
+          console.log(1.5);
+          return 1.5;
         default:
           console.log("default");
           return 1;
@@ -55,11 +55,8 @@ function listenForClicks() {
   });
 };
 
-
-
 // There was an error executing the script.
 // Display the popup's error message.
- 
 function reportExecuteScriptError(error) {
 	console.error(`Failed to execute content script: ${error.message}`);
 };
@@ -67,7 +64,6 @@ function reportExecuteScriptError(error) {
 // When the popup loads, inject a content script into the active tab,
 // and add a click handler.
 // If we couldn't inject the script, handle the error.
-
 browser.tabs.executeScript({file: "/content_scripts/app.js"})
 .then(listenForClicks)
 .catch(reportExecuteScriptError);
